@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SourceMap Browser</title>
+    <meta name="description" content="A cool thing made with Glitch">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <section class="intro">
+      <h1>
+        Upload a source map&hellip;<br />
+        <em style="font-size: 1rem;">&hellip;to view all of the files in it</em>
+      </h1>
+      <p>
+        <label class="btn btn-b" aria-role="button">
+          <i class="fa fa-upload"></i> Upload
+          <input type="file" class="upload-map"></label>
+        &nbsp;
+        <button class="btn btn-b paste-wrapper"><i class="fa fa-paste"></i> <input class="paste-map" type="text" placeholder="Paste" size="5"></button>
+        <a class="demo-map" href="https://glitch.com/edit/index.min.js.map">demo</a>
+      </p>
+      <small>Everything stays in your browser :)</small>
+    </section>
+    <main>
+      <section class="sidebar">
+        <p><a href="#" class="back-to-intro"><i class="fa fa-arrow-left"></i> Back</a></p>
+        <ul>
+        </ul>
+      </section>
+      <pre><code></code></pre>
+    </main>
+
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+    <script src="https://cdn.rawgit.com/mozilla/source-map/1bb91821/dist/source-map.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
+    <script src="/script.js"></script>
+
+  </body>
+</html>
