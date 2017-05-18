@@ -79,7 +79,7 @@ function walkTree(tree, $el) {
   for (const child of tree.children) {
     const $li = $('<li />')
       .addClass(child.type)
-      .append($('<i />').addClass(`fa fa-${icons[child.type]}`))
+      .append($('<i />').addClass(`fa fa-fw fa-${icons[child.type]}`))
       .append(' ')
       .append($('<span />').text(child.name))
       .attr('title', child.path)
