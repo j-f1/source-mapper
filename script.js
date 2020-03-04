@@ -44,8 +44,8 @@ $(function() {
   })
 })
 
-function initMap(text) {
-  const map = new sourceMap.SourceMapConsumer(text)
+async function initMap(text) {
+  const map = await new sourceMap.SourceMapConsumer(text)
   map.contents = {}
   for (const file of map.sources) {
     map.contents[file] = map.sourceContentFor(file)
