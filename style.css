@@ -4,6 +4,7 @@
 
 * {
   box-sizing: border-box;
+  scroll-padding: 100px;
 }
 
 body {
@@ -28,6 +29,13 @@ li {
   line-height: 1.5;
   cursor: pointer;
 }
+li a {
+  color: inherit;
+  text-decoration: none;
+}
+li:target > a {
+  font-weight: bold;
+}
 main .sidebar ul ul {
   margin: 0;
 }
@@ -45,6 +53,7 @@ main .sidebar {
 }
 main .sidebar > ul {
   margin: 0;
+  padding-left: 0;
 }
 main pre {
   border-left: 1px solid lightgray;

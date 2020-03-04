@@ -71,7 +71,7 @@ async function initMap(text) {
     }))
   }
   walkTree(tree, $('main ul'))
-  $('[title="' + location.hash.slice(shebang.length) + '"]').click()
+  $(window).trigger('hashchange')
 }
 
 const icons = {
@@ -79,42 +79,41 @@ const icons = {
   dir: 'folder-open-o'
 }
 
+let lastScrolls = [0, 0]
+const $sidebar = $('.sidebar').on('scroll', function () {
+  lastScrolls = [this.scrollTop, lastScrolls[0]]
+})
+$(window).on('hashchange', function (e) {
+  const child = $(document.getElementById(location.hash.slice(1))).data('entity')
+  const { language, value: html } = hljs.highlight(child.name.slice(child.name.lastIndexOf('.') + 1), child.content)
+  $('pre code').html(html).attr('data-language', language)
+  $sidebar.scrollTop(lastScrolls[1])
+})
+
 function walkTree(tree, $el) {
   for (const child of tree.children) {
+    const id = shebang + child.path
     const $li = $('<li />')
+      .attr('id', id.slice(1))
       .addClass(child.type)
-      .append($('<i />').addClass(`fa fa-fw fa-${icons[child.type]}`))
-      .append(' ')
-      .append($('<span />').text(child.name))
       .attr('title', child.path)
+      .data('entity', child)
+      .append($('<a />').attr('href', id)
+        .append($('<i />').addClass(`fa fa-fw fa-${icons[child.type]}`))
+        .append(' ')
+        .append(child.name))
     $el.append($li)
-    switch(child.type) {
-      case 'file':
-        $li.click(function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          location.hash = shebang + child.path
-          const { language, value: html } = hljs.highlightAuto(child.content)
-          $('pre code').html(html).attr('data-language', language)
-        })
-        break;
-      case 'dir':
-        const $ul = $('<ul />').appendTo($li)
-        const $icon = $li.find('i')
-        $li.click(function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-          $icon.toggleClass('fa-folder-open-o').toggleClass('fa-folder-o')
-          $ul.slideToggle();
-        })
-        if (['node_modules'].includes(child.name)) {
-          $ul.click()
-        }
-        walkTree(child, $ul)
-        break;
-      default:
-        // ???
-        break;
+    if (child.type === 'dir') {
+      const $ul = $('<ul />').appendTo($li)
+      const $icon = $li.find('i')
+      $li.children('a').click(function (e) {
+        $icon.toggleClass('fa-folder-open-o').toggleClass('fa-folder-o')
+        $ul.slideToggle();
+      })
+      if (['node_modules'].includes(child.name)) {
+        $li.children('a').click()
+      }
+      walkTree(child, $ul)
     }
   }
 }
