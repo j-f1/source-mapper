@@ -44,6 +44,10 @@ $(function() {
   })
 })
 
+sourceMap.SourceMapConsumer.initialize({
+  "lib/mappings.wasm": "https://unpkg.com/source-map@0.7.3/lib/mappings.wasm"
+});
+
 async function initMap(text) {
   const map = await new sourceMap.SourceMapConsumer(text)
   map.contents = {}
