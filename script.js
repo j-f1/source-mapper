@@ -71,7 +71,6 @@ async function initMap(text) {
     }))
   }
   walkTree(tree, $('main ul'))
-  $(window).trigger('hashchange')
 }
 
 const icons = {
@@ -83,11 +82,16 @@ let lastScrolls = [0, 0]
 const $sidebar = $('.sidebar').on('scroll', function () {
   lastScrolls = [this.scrollTop, lastScrolls[0]]
 })
-$(window).on('hashchange', function (e) {
+$('.sidebar').on('click', 'ul a', function (e) {
+  setTimeout(function () {
+    console.log(lastScrolls)
+    $sidebar.scrollTop(lastScrolls.find(s => s !== $sidebar.scrollTop()))
+  })
+  if (!location.hash) return
   const child = $(document.getElementById(location.hash.slice(1))).data('entity')
+  if (!child || child.type !== 'file') return
   const { language, value: html } = hljs.highlight(child.name.slice(child.name.lastIndexOf('.') + 1), child.content)
   $('pre code').html(html).attr('data-language', language)
-  $sidebar.scrollTop(lastScrolls[1])
 })
 
 function walkTree(tree, $el) {
